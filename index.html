@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #ffebee;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #f8bbd0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d81b60;
+        }
+        
+        .login-btn {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: modalopen 0.5s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #d81b60;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #c2185b;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #d81b60;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #666;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            background-color: #d81b60;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #d81b60;
+        }
+        
+        .feature-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fce4ec;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #d81b60;
+        }
+        
+        .card h3 {
+            margin-bottom: 15px;
+            color: #d81b60;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            border-top: 1px solid #f8bbd0;
+        }
+        
+        /* Hidden Content (Second Page) */
+        #special-content {
+            display: none;
+            padding: 50px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(216, 27, 96, 0.8);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .notes {
+            background-color: #fce4ec;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .notes:before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: #fce4ec;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+        
+        .note {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #f8bbd0;
+        }
+        
+        .note:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .heart {
+            color: #d81b60;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">For My Love</div>
+            <button class="login-btn" id="loginBtn">Login</button>
+        </nav>
+        
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 style="text-align: center; margin-bottom: 20px; color: #d81b60;">Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Log In</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Hero Section (Front Page) -->
+        <section class="hero">
+            <h1>Welcome, My Love</h1>
+            <p>I've created this special place just for you, where I can share my thoughts, memories, and all the reasons why you mean the world to me.</p>
+            <a href="#" class="cta-btn" id="exploreBtn">Explore Our Journey</a>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Why You're Amazing</h2>
+            <div class="feature-cards">
+                <div class="card">
+                    <div class="card-icon">❤️</div>
+                    <h3>Your Heart</h3>
+                    <p>Your kindness and compassion never cease to amaze me. The way you care for others shows the beauty of your soul.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✨</div>
+                    <h3>Your Spirit</h3>
+                    <p>Your energy lights up every room you enter. Your smile and laughter are truly contagious.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌟</div>
+                    <h3>Your Strength</h3>
+                    <p>I admire how you face challenges with grace and determination. You inspire me every day.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Second Page (Hidden until login) -->
+        <section id="special-content">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #d81b60;">All About You with me hehe</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 40px; color: #666;">This page is dedicated to celebrating you and all the wonderful moments we've shared together.</p>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                <img src="/static/image/image.jpg" alt="Our first date" width="400" height="250">
+                <div class="gallery-caption">bonding with fammmmmmm</div>
+                 
+                </div>
+                <div class="gallery-item">
+                   <img src="/static/image/image (2).jpg"  alt="Our first date" width="400" height="250">
+                   <div class="gallery-caption">if you dont remember this pic this is the night nga ni apas ko kaupod namie HAHHAAHAHHA</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/image/imagee.jpg"  alt="Our first date" width="400" height="250">
+                    <div class="gallery-caption">fav spottttt</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/image/imageeeeeee.jpg"  alt="Our first date" width="400" height="250">
+                    <div class="gallery-caption">first beach date togetherrr</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/image/imageeee.jpg"  alt="Our first date" width="400" height="250">
+                    <div class="gallery-caption">first evening date in beachhhhh</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/image/imageeeeeeeeeee.jpg"  alt="Our first date" width="400" height="250">
+                    <div class="gallery-caption">before we this you know that we had an arguiment about this plan HAHAHAHAHAHA</div>
+                </div>
+            </div>
+            
+            <div class="notes">
+                <h3 style="text-align: center; margin-bottom: 30px; color: #d81b60;">Love Notes</h3>
+                
+                <div class="note">
+                    <span class="heart">❤️</span>
+                    <p>I still remember the first time I saw you. The world seemed to slow down, and I knew in that moment that you were someone special.</p>
+                </div>
+                
+                <div class="note">
+                    <span class="heart">❤️</span>
+                    <p>Your smile is my favorite sight in the world. It brightens even the darkest days and reminds me of how lucky I am to have you in my life.</p>
+                </div>
+                
+                <div class="note">
+                    <span class="heart">❤️</span>
+                    <p>Thank you for being patient with me, for understanding me, and for loving me exactly as I am. You make me want to be a better person every day.</p>
+                </div>
+                
+                <div class="note">
+                    <span class="heart">❤️</span>
+                    <p>I love the way your eyes light up when you talk about something you're passionate about. Your enthusiasm for life is contagious.</p>
+                </div>
+                
+                <div class="note">
+                    <span class="heart">❤️</span>
+                    <p>Every moment spent with you is a treasure. I cherish our laughs, our talks, our silences, and even our disagreements because they've brought us closer.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button id="sweetMessageBtn" class="cta-btn">Click Here for a Little Love Letter 💌</button>
+            </div>
+            
+            <div id="sweetMessage" style="display: none; background-color: #fce4ec; padding: 30px; margin-top: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); color: #333; text-align: left; line-height: 1.8;">
+                <h3 style="color: #d81b60; text-align: center; margin-bottom: 20px;">A Letter Just for You 💖</h3>
+                <p>
+                    My love, I don't think words will ever be enough to describe how much you mean to me, but I’ll try anyway. From the moment you stepped into my life, everything changed for the better. Your smile has become my favorite sight, your laugh my favorite sound, and your presence my greatest comfort. <br><br>
+                    I love the way you hold my hand like you’re never letting go. I love the way you talk, even when you're just ranting about something silly. I love your sleepy eyes, your soft voice in the morning, and the way you randomly check on me throughout the day. <br><br>
+                    Thank you for being the light that makes my world so much brighter. Thank you for loving me in the most beautiful way, for showing me that real love exists. I don’t know what the future holds, but I know I want to spend it all with you. Always and forever, you and me, okay? ❤️<br><br>
+                    I love you endlessly.
+                </p>
+            </div>
+            
+            
+
+        </section>
+        
+        <div class="floating-hearts" id="hearts"></div>
+        
+        <footer>
+            <p>Made with ❤️ just for you | Made By Me</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Login functionality
+       // Get references to DOM elements
+// Get references to DOM elements
+const loginBtn = document.getElementById('loginBtn');
+const loginModal = document.getElementById('loginModal');
+const closeBtn = document.querySelector('.close');
+const loginForm = document.getElementById('loginForm');
+const specialContent = document.getElementById('special-content');
+const exploreBtn = document.getElementById('exploreBtn');
+
+// Open login modal
+loginBtn.addEventListener('click', function() {
+    loginModal.style.display = 'block';
+});
+
+// Close login modal
+closeBtn.addEventListener('click', function() {
+    loginModal.style.display = 'none';
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target == loginModal) {
+        loginModal.style.display = 'none';
+    }
+});
+
+// Handle login form submission
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    // Simple validation (in a real app, this would be more secure)
+    if (username === "Salome D. Desucatan" && password === "gwapasalome") {
+        // Show special content
+        specialContent.style.display = 'block';
+        // Hide login button
+        loginBtn.style.display = 'none';
+        // Hide login modal
+        loginModal.style.display = 'none';
+        // Scroll to special content
+        specialContent.scrollIntoView({ behavior: 'smooth' });
+        // Create floating hearts
+        createFloatingHearts();
+    } else {
+        alert("Incorrect username or password. Try again!");
+    }
+});
+
+// Explore button functionality
+exploreBtn.addEventListener('click', function(event) {
+    event.preventDefault();
+    loginModal.style.display = 'block';
+});
+
+// Floating hearts animation
+function createFloatingHearts() {
+    const heartsContainer = document.getElementById('hearts');
+    const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💞'];
+    
+    // Create 50 floating hearts
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            const randomHeart = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            heart.innerHTML = randomHeart;
+            heart.style.position = 'absolute';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = (Math.random() * 20) + 100 + 'vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.opacity = '0';
+            heart.style.transform = 'translateY(0)';
+            heart.style.transition = 'all ' + (Math.random() * 3 + 5) + 's ease-out';
+            
+            heartsContainer.appendChild(heart);
+            
+            // Start animation after a short delay
+            setTimeout(() => {
+                heart.style.opacity = Math.random() * 0.7 + 0.3;
+                heart.style.transform = 'translateY(-' + (Math.random() * 100 + 50) + 'vh)';
+            }, 100);
+            
+            // Remove heart from DOM after animation completes
+            setTimeout(() => {
+                heartsContainer.removeChild(heart);
+            }, 8000);
+            
+        }, i * 300);
+    }
+    
+    // Generate new hearts every 15 seconds
+    setInterval(createFloatingHearts, 15000);
+        }
+
+        // Show sweet message
+        showMessageBtn.addEventListener('click', function() {
+            sweetMessage.style.display = 'block';
+            sweetMessage.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Initialize any additional features
+        function initializeApp() {
+            // You could add more initialization code here
+            console.log("Love page initialized ❤️");
+        }
+
+        // Run initialization when page loads
+        window.addEventListener('load', initializeApp);
+        // Sweet message button behavior
+        sweetMessage.style.display = 'block';
+        sweetMessage.style.display = 'block';
+
+toMessageBtn.addEventListener('click', function () {
+    sweetMessage.style.display = 'block';
+    sweetMessage.scrollIntoView({ behavior: 'smooth' });
+});
+
+</script>
+<script>
+    // Sweet message button
+const sweetMessageBtn = document.getElementById('sweetMessageBtn');
+const sweetMessage = document.getElementById('sweetMessage');
+
+sweetMessageBtn.addEventListener('click', () => {
+    sweetMessage.style.display = sweetMessage.style.display === 'none' ? 'block' : 'none';
+    sweetMessageBtn.textContent = sweetMessage.style.display === 'block'
+        ? "Hide Love Letter 💌"
+        : "Click Here for a Little Love Letter 💌";
+});
+
+</script>
+</body>
+
+</html>
